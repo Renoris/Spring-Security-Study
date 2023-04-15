@@ -37,6 +37,8 @@ public class IndexController {
         return "join";
     }
 
+    // /logout 은 springSecurity default logout - session 초기화 해줌
+
     @GetMapping("/user")
     public @ResponseBody String user () {
         return "user";
