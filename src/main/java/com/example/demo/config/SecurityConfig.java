@@ -3,6 +3,8 @@ package com.example.demo.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.SecurityBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,6 +13,12 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록이 됨 // config에 등록할 필터가 등록이됨
+//@EnableGlobalMethodSecurity //@Deprecated 예정
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
+// securedEnabled = true - 시큐어 어노테이션 활성화 -
+// @Secured("ROLE_ADMIN") // 특정 메소드에 간단하게 권한을 걸 수 있음
+// prePostEnabled = true
+// @preAuthorize, @postAuthorize 라는 어노테이션 활성화 - secured 가 이후에 나온거- 더많이쓰는듯?
 public class SecurityConfig {
 
     @Bean
