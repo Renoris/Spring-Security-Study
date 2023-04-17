@@ -40,8 +40,14 @@ public class SecurityConfig {
                 .loginPage("/loginForm")
 //                .usernameParameter("userName") // 프론트엔드에서 도착하는 username 파라미터를 userName이라고 받고싶을때 바꿔주자
                 .loginProcessingUrl("/login") // /login주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행해줌
-                .defaultSuccessUrl("/"); // 로그인이 완료되면 메인페이지로 이동하게... -- 만약 특정 페이지로 갓는데 로그인을 요청해서 성공하면 다시 그 특정 페이지로 감
+                .defaultSuccessUrl("/") // 로그인이 완료되면 메인페이지로 이동하게... -- 만약 특정 페이지로 갓는데 로그인을 요청해서 성공하면 다시 그 특정 페이지로 감
                     //강제로 로그인 페이지로 리다이렉트 된것들은 로그인이 완료되면 다시 가려고 했던 페이지로 돌아감
+                .and()
+                .oauth2Login()//oauth2 로그인을 실행할수 있게 되면
+                .loginPage("/loginForm"); // 이걸 넣든 안넣든 인증이 필요하면 어차피 위에서 로그인 페이지를 지정해줫으니 간다.
+        // 다만 구글로그인이 완료된뒤의 후처리가 필요함
+
+
 
 
 
