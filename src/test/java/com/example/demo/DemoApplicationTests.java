@@ -10,7 +10,7 @@ class DemoApplicationTests {
 	void contextLoads() {
 	}
 
-	@Test
+
 	public void test() {
 		long a = 223147483647L;
 		System.out.println(Long.toBinaryString(a));
@@ -19,6 +19,5 @@ class DemoApplicationTests {
 		int b = (int) a;
 		System.out.println(Integer.toBinaryString(b));
 		System.out.println(b);
-
 	}
 }
