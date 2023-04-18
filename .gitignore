@@ -35,4 +35,4 @@ out/
 
 ### VS Code ###
 .vscode/
-src/main/resources/application-google.yml
+src/main/resources/application-social.yml

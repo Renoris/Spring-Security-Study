@@ -2,6 +2,10 @@ package com.example.demo.config.oauth;
 
 import com.example.demo.config.auth.PrincipalDetails;
 import com.example.demo.model.User;
+import com.example.demo.provider.UserInfoProvider;
+import com.example.demo.provider.userinfo.FacebookUserinfo;
+import com.example.demo.provider.userinfo.GoogleUserinfo;
+import com.example.demo.provider.userinfo.OAuth2UserInfo;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -44,13 +48,26 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         //attribute안에 sub(고윳값) ,이름, 사진 url, locale,email, 이메일 만료됫는지?
         //그리고 username(userId)에 google_{sub}이렇게 하면 중복될 일이 없음
         //패스워드는 뭐 대충 암호화해서 넣으면..? null만 아니라면 상관없음
-        // provider = 구글 //페북
-        // providerId = 구글에서 판별하는 유저의 id
-        String provider = userRequest.getClientRegistration().getClientId(); // google
+        // provider = 구글, 페북
+        // providerId = provider 에서 판별하는 유저의 id,
+
+        /*
+        String provider = userRequest.getClientRegistration().getRegistrationId(); // google, facebook
         String providerId = oAuth2User.getAttribute("sub"); //google에서 보여주는 회원 아이디
+        String providerId  = oAuth2User.getAttribute("id"); //facebook에서 보여주는 회원 아이디
         String userName = provider+"_"+providerId; //google_1231252345684
         String password = bCryptPasswordEncoder.encode("병준이짱");
         String email = oAuth2User.getAttribute("email");
+        String role = "ROLE_USER";
+        */
+
+        OAuth2UserInfo oAuth2UserInfo = UserInfoProvider.getOAuthUserInfo(userRequest, oAuth2User);
+
+        String providerId = oAuth2UserInfo.getProviderId();
+        String provider = oAuth2UserInfo.getProvider();
+        String userName = provider+"_"+providerId;
+        String password = bCryptPasswordEncoder.encode("병준이짱");
+        String email = oAuth2UserInfo.getEmail();
         String role = "ROLE_USER";
 
         User user = userRepository.findByUsername(userName)
