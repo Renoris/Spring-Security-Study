@@ -3,8 +3,6 @@ package com.example.demo.config.oauth;
 import com.example.demo.config.auth.PrincipalDetails;
 import com.example.demo.model.User;
 import com.example.demo.provider.UserInfoProvider;
-import com.example.demo.provider.userinfo.FacebookUserinfo;
-import com.example.demo.provider.userinfo.GoogleUserinfo;
 import com.example.demo.provider.userinfo.OAuth2UserInfo;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

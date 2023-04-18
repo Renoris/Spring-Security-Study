@@ -2,11 +2,11 @@ package com.example.demo.provider.userinfo;
 
 import java.util.Map;
 
-public class GoogleUserinfo implements OAuth2UserInfo{
+public class GoogleUserInfo implements OAuth2UserInfo{
 
     private Map<String, Object> attributes; //getAttributes()를 받을것
 
-    public GoogleUserinfo( Map<String, Object> attributes) {
+    public GoogleUserInfo(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
 

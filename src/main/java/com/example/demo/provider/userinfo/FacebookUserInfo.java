@@ -2,11 +2,11 @@ package com.example.demo.provider.userinfo;
 
 import java.util.Map;
 
-public class FacebookUserinfo implements OAuth2UserInfo{
+public class FacebookUserInfo implements OAuth2UserInfo{
 
     private Map<String, Object> attributes; //getAttributes()를 받을것
 
-    public FacebookUserinfo(Map<String, Object> attributes) {
+    public FacebookUserInfo(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
 
