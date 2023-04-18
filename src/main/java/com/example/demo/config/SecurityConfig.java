@@ -30,7 +30,7 @@ public class SecurityConfig {
         http.csrf().disable();
         http.authorizeHttpRequests()
                 .requestMatchers("/user/**").authenticated()
-                .requestMatchers("/manager/**").hasAnyRole("ADMIN","MANAGER")
+                .requestMatchers("/manager/**").hasAnyRole("ADMIN","MANAGER")//이부분 최신코드
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()//여기부터는 만약 허가를 받지않은 페이지로 이동할 경우 로그인 페이지로 이동시키는 역할을 함
