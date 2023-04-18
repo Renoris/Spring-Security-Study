@@ -9,21 +9,30 @@ package com.example.demo.config.auth;
 // User 오브젝트 타입은 => userDetails 타입 객체
 
 import com.example.demo.model.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 // Security Session => Authentication => UserDetails
 // 세션안에 들어갈수있는건 어쎈티케이션 객체고 그안에서 유저정보를 저장하는건 UserDetails 객체
 //Authentication 객체는 PrincipalDetailsService 에서 만듬
-public class PrincipalDetails implements UserDetails { //이렇게 하면 Authentication 객체안에 넣을수잇음
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User { //이렇게 하면 Authentication 객체안에 넣을수잇음
 
     private User user; //- 콤포지션
 
     public PrincipalDetails(User user) {
         this.user = user;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
     }
 
     //해당 유저의 권한을 리턴하는 곳
@@ -70,6 +79,11 @@ public class PrincipalDetails implements UserDetails { //이렇게 하면 Authen
         // 우리사이트가 1년동안 회원이 로그인을 안하면 휴면계정이 되기로 했다면
         // 마지막 현재시간 - 마지막 로그인시간 > 1년 이면 false;
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }
 

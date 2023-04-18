@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.demo.config.oauth;
 
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -14,20 +14,27 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         System.out.println("userRequest : " + userRequest);
         //userRequest가 들고잇는것
         //1. clientRegistration
-        //2. accessToken
-        //3. super.loadUser(userRequest) 가 주는 것들도 잇다
-        //super.loadUser(userRequest)를 하게되고 거기서 attribute를 꺼내개 되면 사용자 프로필 정보가 다들어 있다
+        //- 서버에 대한 정보 - secret, scope, 구글 - 어떤 Oauth로 로그인 했는지 나옴
+
+        //2. accessToken //
+        //액세스토큰을 쓸일이없음 이미 다들고왔기때문에
+
+
+        //3. super.loadUser(userRequest)
+        //구글 로그인 버튼 클릭 -> 구글 로그인창 -> 로그인 완료 => code를 리턴 (oauth-client라이브러리) -> accessToken 요청
+        // userRequest정보 -> 회원 프로필을 받아야함(loaduser함수 호출) -> 회원 프로필
+        // loadUser -> 구글로 부터 회원 프로필을 받아줌
         System.out.println(super.loadUser(userRequest).getAuthorities());
 
-        //액세스토큰을 쓸일이없음 이미 다들고왔기때문에
+        OAuth2User oAuth2User = super.loadUser(userRequest);
+
+
+        // attribute - 사용자 프로필 정보가 다들어 있다
         //attribute안에 sub(고윳값) ,이름, 사진 url, locale,email, 이메일 만료됫는지?
         //그리고 username(userId)에 google_{sub}이렇게 하면 중복될 일이 없음
         //패스워드는 뭐 대충 암호화해서 넣으면..? null만 아니라면 상관없음
         // provider = 구글 //페북
         // providerId = subfmf sjgwk
-
-
-
-        return super.loadUser(userRequest);
+        return oAuth2User;
     }
 }

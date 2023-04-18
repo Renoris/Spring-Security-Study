@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.auth.PrincipalDetails;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +25,45 @@ public class IndexController {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    //스프링 시큐리티는 자기만의 session을 들고 있음
+    //그리고 세션안에 시큐리티가 관리하는 세션이 따로있음
+    // 시큐리티가 관리하는 세션안에 들어갈수 있는 타입 - Authentication 객체
+    // Authentication 안에 들어갈수 있는 타입
+    // - UserDetails - 일반적인 로그인
+    // - OAuth2User - OAuth 로그인
+    // 컨트롤러에서 DI 가 힘든대...?
+    // X라는 클래스를 하나 만들어서
+    // 둘다 implement한 객체를 만들어서 X를 담아버리자
+    // 근데 principalDetails 만들고 loadUser에서 썻는데?
+    // 그럼 Oauth를 principalDetails 타입으로 묶어버리자
+
+    @GetMapping("/test/login")
+    public @ResponseBody String loginTest(Authentication authentication, @AuthenticationPrincipal PrincipalDetails userDetails) {
+        //@AuthenticationPrincipal 이라는 것으로 세션정보에 접근할수 있음
+        //그런데 PrincipalDetails가 userDetails를 구현했기 때문에 PrincipalDetails 로도 받을수 잇음
+        System.out.println("/test/login ==================");
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal(); // 근데 이부분 다운캐스팅 할때 에러날거임
+        //왜나하면 oauth로그인을 했을 경우 principalDetails에 OAuth2User 가 implementation 되어 있지 않는 이상 캐스팅이안댐
+        //userDetails - 일반로그인
+        System.out.println("authentication : "+ principalDetails.getUser());
+        System.out.println("userDetails:"+ principalDetails.getUsername());
+
+        return "세션 정보 확인하기";
+    }
+
+    @GetMapping("/test/oauth/login")
+    public @ResponseBody String loginOauthTest(Authentication authentication,
+    @AuthenticationPrincipal OAuth2User oauth) {
+        //@AuthenticationPrincipal 이라는 것으로 세션정보에 접근할수 있음
+        System.out.println("/test/login ==================");
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal(); // Oauth2User로 다운 캐스팅해야함
+        // OAuth2User - Oauth 로그인에 쓰임 -
+        System.out.println("authentication : "+ oAuth2User.getAttributes());
+        System.out.println("oauth2User:"+ oauth.getAttributes());
+
+        return "Oauth 세션 정보 확인하기";
+    }
 
     @GetMapping({"","/"})
     public String index () {
