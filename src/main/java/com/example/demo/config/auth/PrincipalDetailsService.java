@@ -19,6 +19,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     //여기에서 되는 리턴은 securitySession => Authentication(내부)=> userDetails로 됨
+    //이 함수 종료시 @AuthenticationPrincipal 어노테이션이 만들어짐
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username).orElse(null);

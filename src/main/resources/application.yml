@@ -10,16 +10,7 @@ server:
 
 spring:
   datasource:
-    driver-class-name: com.mysql  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 945231198020-n036o28urqv39k6f3huu6vatp4hf5nk3.apps.googleusercontent.com
-            client-secret: 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
-            scope:
-              - email
-              - profilecj.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/security?serverTimezone=Asia/Seoul
     username: cos
     password: cos1234

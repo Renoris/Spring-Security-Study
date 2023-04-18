@@ -88,8 +88,11 @@ public class IndexController {
 
     // /logout 은 springSecurity default logout - session 초기화 해줌
 
+
+    //oauth로그인이나 일반 로그인을 해도 둘다 principalDetails를 받아줌
     @GetMapping("/user")
-    public @ResponseBody String user () {
+    public @ResponseBody String user (@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        System.out.println("principalDetails:" + principalDetails.getUser());
         return "user";
     }
 

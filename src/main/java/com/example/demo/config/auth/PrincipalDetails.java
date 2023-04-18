@@ -26,13 +26,18 @@ public class PrincipalDetails implements UserDetails, OAuth2User { //이렇게 �
 
     private User user; //- 콤포지션
 
+    //Oauth의 어트리뷰트를 저장하는것.
+    private Map <String, Object> attributes;
+
+    //일반 로그인에 사용되는 생성자
     public PrincipalDetails(User user) {
         this.user = user;
     }
 
-    @Override
-    public Map<String, Object> getAttributes() {
-        return null;
+    //Oauth 로그인시 사용되는 생성자
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
     }
 
     //해당 유저의 권한을 리턴하는 곳
@@ -80,9 +85,16 @@ public class PrincipalDetails implements UserDetails, OAuth2User { //이렇게 �
         // 마지막 현재시간 - 마지막 로그인시간 > 1년 이면 false;
         return true;
     }
+    //이쪽 아래는 oauthUser method
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
 
     @Override
     public String getName() {
+//        return (String) attributes.get("sub"); // 안중요함
         return null;
     }
 }

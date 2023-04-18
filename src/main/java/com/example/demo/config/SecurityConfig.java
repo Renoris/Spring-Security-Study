@@ -25,11 +25,6 @@ public class SecurityConfig {
     private final PrincipalOauth2UserService principalOauth2UserService;
 
     @Bean
-    public BCryptPasswordEncoder encodePwd() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     protected SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
 
         http.csrf().disable();
